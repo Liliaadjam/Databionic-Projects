@@ -1,0 +1,230 @@
+---
+title: "Project2"
+output:
+  html_document:
+    df_print: paged
+date: "2024-06-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dbt.DataIO)
+library(DataVisualizations)
+library(ggplot2)
+library(reshape2)
+library(gridExtra)
+library(dplyr)
+library(Umatrix)
+
+iris_data <- ReadLRN("iris.lrn")
+iris_solution <- ReadCLS("iris.cls")
+
+crabs_data <- ReadLRN("1974Crabs.lrn")
+crabs_sex <- ReadCLS("1974Crabs_sex.cls")
+crabs_sp <- ReadCLS("1974Crabs_sp.cls")
+
+# Robust Normalization
+iris_pp <- RobustNormalization(iris_data$Data)
+crabs_pp <- RobustNormalization(crabs_data$Data[,2:6]) 
+
+#Signed Log
+iris_sl <- SignedLog(iris_data$Data)
+crabs_sl <- SignedLog(crabs_data$Data[,2:6])
+
+# z-transformation
+iris_z <- scale(iris_data$Data)
+crabs_z <- scale(crabs_data$Data[,2:6])
+```
+
+# Clustering
+
+Each group is assigned a different dataset to work with. The dataset will be a supervised learning dataset, implying a specific classification. The goal is, to find a clustering (unsupervised learning) which resembles the given classification. Finding a clustering could imply meaningful structures have a relationship with the classification. Follow the steps to obtain the clustering and evaluate in bullet points, why you find or might not find a match between clustering and classification.
+
+## 1.  Preprocess the data if necessary
+
+to preprocess we applied the RobustNormalization method from the package DataVisualisations on the data of both data sets below a summary of the data before and after preprocessing.
+
+### Comparison Iris Data
+
+```{r, echo = F, eval = T, message=FALSE, warning=FALSE, results='hide'}
+
+plot_density <- function(data, title) {
+  # Konvertiere in ein Data Frame
+  df <- as.data.frame(data)
+  
+  # Schmelze das Data Frame für ggplot2
+  df_melted <- melt(df, id.vars = NULL, variable.name = "Column")
+  
+  # Berechne die Dichte für jede Spalte
+  calc_density <- function(x) {
+    d <- density(x)
+    data.frame(x = d$x, y = d$y)
+  }
+  
+  densities <- df_melted %>%
+    group_by(Column) %>%
+    do(calc_density(.$value))
+  
+  # Erstelle den Plot
+  ggplot(densities, aes(x = x, y = y, color = Column)) +
+    geom_line() +
+    ggtitle(title)
+
+}
+
+datasets <- list(iris_data$Data, iris_pp, iris_sl, iris_z)
+titles <- c("No Preprocessing", "RobustNormalization", "SignedLog", "z-Transformation")
+
+plots <- list()
+
+for (i in seq_along(datasets)) {
+  data <- datasets[[i]]
+  title <- titles[i]
+  plot <- plot_density(data, title)
+  plots[[i]] <- plot
+}
+
+do.call(grid.arrange, c(plots, ncol = 2))
+```
+A quick peak at the data before and after preprocessing. As one can easily see all different preprocessing methods used work well, with SignedLog transforming the data more towards a normal distribution (especially Sepal-Lenght, compared to the others), Robust Normalization making the data generally smoother and z-Transformation scaling towards a mean of 0 with a sd of 1 for better comparisson of features.
+
+### Comparisson Crabs Data
+
+```{r, echo = F, eval = T, message=FALSE, warning=FALSE, results='hide'}
+c_datasets <- list(crabs_data$Data[,2:6], crabs_pp, crabs_sl, crabs_z)
+c_titles <- c("No Preprocessing", "RobustNormalization", "SignedLog", "z-Transformation")
+
+plots <- list()
+
+for (i in seq_along(c_datasets)) {
+  data <- c_datasets[[i]]
+  title <- c_titles[i]
+  plot <- plot_density(data, title)
+  plots[[i]] <- plot
+}
+
+do.call(grid.arrange, c(plots, ncol = 2))
+```
+
+
+## 2.  Clustering with ESOM
+
+### Clustering of the Iris Data set
+We chose to use SignedLog preprocessing because it generates the clearest cutoff between clusters.
+```{r, echo = FALSE, eval = TRUE, message=FALSE, warning=FALSE, results='hide'}
+
+iris_esom <- esomTrain(iris_sl, Key = 1:nrow(iris_sl))
+
+plotMatrix(iris_esom$Umatrix, iris_esom$BestMatches, iris_solution$Cls)
+
+
+```
+If not for the colors of the solution only two clusters would be visibly identifiable. While the green cluster is clearly separated, blue and pink seem to overlap, with no "mountains" for separation
+
+```{r, echo = FALSE, eval = TRUE, message=FALSE, warning=FALSE, results='hide'}
+
+iris_pmatrix <- pmatrixForEsom(iris_sl, iris_esom$Weights, iris_esom$Lines, iris_esom$Columns, iris_esom$Toroid)
+
+plotMatrix(iris_pmatrix, ColorStyle = "Pmatrix")
+
+```
+There seems to be a difference in density between the blue and pink clusters if visually compared to the former uMap.
+To make this clearer a UStar Matrix is generated:
+```{r, echo = FALSE, eval = TRUE, message=FALSE, warning=FALSE, results='hide'}
+iris_ustar <- GeneralizedUmatrix::CalcUstarmatrix(iris_esom$Umatrix, iris_pmatrix)
+
+plotMatrix(iris_ustar, iris_esom$BestMatches, iris_solution$Cls)
+
+```
+Here one could differentiate three clusters: the green one in the valley between the high mountains, blue for all points in a lake and pink for the remaining valley floor close to water
+
+We used Robust Normalization on the data as the other preprocessing methods did not improve the result
+
+```{r, echo = FALSE, eval = TRUE, message=FALSE, warning=FALSE, results='hide'}
+
+crabs_esom <- esomTrain(crabs_pp, Key = 1:nrow(crabs_pp))
+
+plotMatrix(crabs_esom$Umatrix, crabs_esom$BestMatches, crabs_sex$Cls)
+
+```
+Highlighted in the map above are the two different sexes
+
+
+```{r, echo = F, eval = T}
+plotMatrix(crabs_esom$Umatrix, crabs_esom$BestMatches, crabs_sp$Cls)
+
+```
+There are no detectable clusters in any shape or form. Highlighted in the map above are the two different species
+
+```{r, echo = F, eval = T}
+
+crabs_pmatrix <- pmatrixForEsom(crabs_pp, crabs_esom$Weights, crabs_esom$Lines, crabs_esom$Columns, crabs_esom$Toroid)
+
+plotMatrix(crabs_pmatrix, crabs_esom$BestMatches, Cls=crabs_sex$Cls, ColorStyle = "Pmatrix")
+
+```
+The pMatrix highlights two high density and two low density areas. If one takes the dark areas as clusters, it might just fit the clusters for sex, although it clearly does not help for species (below):
+```{r, echo = F, eval = T}
+plotMatrix(crabs_pmatrix, crabs_esom$BestMatches, Cls=crabs_sp$Cls, ColorStyle = "Pmatrix")
+```
+
+
+```{r, echo = F, eval = T}
+
+crabs_ustar <- GeneralizedUmatrix::CalcUstarmatrix(crabs_esom$Umatrix, crabs_pmatrix)
+
+plotMatrix(crabs_ustar, crabs_esom$BestMatches, crabs_sex$Cls)
+
+```
+even combined u- and pMatrix don`t help find any clusters, with the highlights (in this case sex) one could argue for some mountains as division between clusters but difficult to impossible without. Even more so if one highlights species as shown below:
+
+```{r, echo = F, eval = T}
+
+plotMatrix(crabs_ustar, crabs_esom$BestMatches, crabs_sp$Cls)
+
+```
+This difficulty in finding anything might be caused by some overlap in the data, eg when one of the species females are the same size as another species males. Although when looking at the p- and U*-Map there seems to be a slight trend toward at least splitting between the sexes 
+
+3.  Clustering with DBS
+
+We now use Pswarm on the iris_sl, the seperation for the green cluster is clearly visable, while the
+blue and pink cluster slightly overlap.
+
+```{r, echo = F, eval = T}
+library(DatabionicSwarm)
+iris_pswarm <- Pswarm(iris_sl)
+s <- GeneralizedUmatrix::GeneralizedUmatrix(iris_sl,iris_pswarm$ProjectedPoints)
+plotMatrix(s$Umatrix,s$Bestmatches, Cls = iris_solution$Cls)
+```
+
+```{r}
+dbs <- DBSclustering(3,iris_sl,s$Bestmatches,c(s$Lines,s$Columns))
+plotMatrix(s$Umatrix,s$Bestmatches,Cls = dbs)
+```
+Using the DBSclustering some of the overlapping goes away, but still there is no clear distinction between the blue and pink cluster
+```{r}
+crabs_pswarm <- Pswarm(crabs_pp)
+crabs_s <- GeneralizedUmatrix::GeneralizedUmatrix(crabs_pp,crabs_pswarm$ProjectedPoints)
+plotMatrix(crabs_s$Umatrix,crabs_s$Bestmatches, Cls = crabs_sp$Cls)
+```
+For the crabs dataset the results with pswarm seem worse, in the image above the two classes are the species
+```{r}
+crabs_dbs <- DBSclustering(2,crabs_pp,crabs_s$Bestmatches,c(crabs_s$Lines,crabs_s$Columns))
+plotMatrix(crabs_s$Umatrix,crabs_s$Bestmatches,Cls = crabs_dbs)
+```
+Using DBSclustering give us a better seperation for the two species while there is still a bit of overlapping
+```{r}
+plotMatrix(crabs_s$Umatrix,crabs_s$Bestmatches, Cls = crabs_sex$Cls)
+```
+For the sex attribute there is no visable seperation, this indicates that species can be better seperated then the sex attribute.
+
+
+4.  Evaluate match between classification and clustering
+
+```{r}
+caret::confusionMatrix(as.factor(dbs),as.factor(iris_solution$Cls))
+caret::confusionMatrix(as.factor(crabs_dbs),as.factor(crabs_sp$Cls))
+caret::confusionMatrix(as.factor(crabs_dbs),as.factor(crabs_sex$Cls))
+```
+To evaluate our solutions we use confusion matrix, as one can imagine the results for the iris dataset are overall good with an accuracy of 89%. Surprisingly the accuracy for the species in the crabs dataset is 60% so better than guessing but still not good enough. As one can imagine the sex attribute is below 50%, indicating that this attribute can not be clearly seperated.

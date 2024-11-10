@@ -1,0 +1,665 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Project2},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Project2}
+\author{}
+\date{\vspace{-2.5em}2024-06-19}
+
+\begin{document}
+\maketitle
+
+\section{Clustering}\label{clustering}
+
+Each group is assigned a different dataset to work with. The dataset
+will be a supervised learning dataset, implying a specific
+classification. The goal is, to find a clustering (unsupervised
+learning) which resembles the given classification. Finding a clustering
+could imply meaningful structures have a relationship with the
+classification. Follow the steps to obtain the clustering and evaluate
+in bullet points, why you find or might not find a match between
+clustering and classification.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Preprocess the data if necessary
+\end{enumerate}
+
+to preprocess we applied the RobustNormalization method from the package
+DataVisualisations on the data of both data sets below a summary of the
+data before and after preprocessing.
+
+\subsubsection{Iris summary before}\label{iris-summary-before}
+
+\begin{verbatim}
+##   Sepal-Length    Sepal-Width     Petal-Length    Petal-Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##    Sepal-area      Petal-area    
+##  Min.   :10.00   Min.   : 0.110  
+##  1st Qu.:15.66   1st Qu.: 0.420  
+##  Median :17.66   Median : 5.615  
+##  Mean   :17.82   Mean   : 5.794  
+##  3rd Qu.:20.32   3rd Qu.: 9.690  
+##  Max.   :30.02   Max.   :15.870
+\end{verbatim}
+
+\subsubsection{Iris summary after}\label{iris-summary-after}
+
+\begin{verbatim}
+##   Sepal-Length      Sepal-Width       Petal-Length       Petal-Width     
+##  Min.   :-0.0303   Min.   :-0.1025   Min.   :-0.02684   Min.   :0.00000  
+##  1st Qu.: 0.2121   1st Qu.: 0.3075   1st Qu.: 0.08125   1st Qu.:0.08333  
+##  Median : 0.4242   Median : 0.4100   Median : 0.57665   Median :0.50000  
+##  Mean   : 0.4374   Mean   : 0.4394   Mean   : 0.47001   Mean   :0.45806  
+##  3rd Qu.: 0.6061   3rd Qu.: 0.5638   3rd Qu.: 0.71176   3rd Qu.:0.70833  
+##  Max.   : 1.0606   Max.   : 1.1276   Max.   : 1.03603   Max.   :1.00000  
+##    Sepal-area         Petal-area       
+##  Min.   :-0.05467   Min.   :-0.002002  
+##  1st Qu.: 0.28405   1st Qu.: 0.018682  
+##  Median : 0.40374   Median : 0.365304  
+##  Mean   : 0.41349   Mean   : 0.377252  
+##  3rd Qu.: 0.56323   3rd Qu.: 0.637198  
+##  Max.   : 1.14342   Max.   : 1.049541
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Paket 'dplyr' wurde unter R Version 4.3.3 erstellt
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attache Paket: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## Die folgenden Objekte sind maskiert von 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## Die folgenden Objekte sind maskiert von 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{verbatim}
+## No id variables; using all as measure variables
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 506 rows containing missing values or values outside the scale range
+## (`geom_line()`).
+\end{verbatim}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\subsubsection{Crabs summary before}\label{crabs-summary-before}
+
+\begin{verbatim}
+##      index            FL              RW              CL              CW       
+##  Min.   : 1.0   Min.   : 7.20   Min.   : 6.50   Min.   :14.70   Min.   :17.10  
+##  1st Qu.:13.0   1st Qu.:12.90   1st Qu.:11.00   1st Qu.:27.27   1st Qu.:31.50  
+##  Median :25.5   Median :15.55   Median :12.80   Median :32.10   Median :36.80  
+##  Mean   :25.5   Mean   :15.58   Mean   :12.74   Mean   :32.11   Mean   :36.41  
+##  3rd Qu.:38.0   3rd Qu.:18.05   3rd Qu.:14.30   3rd Qu.:37.23   3rd Qu.:42.00  
+##  Max.   :50.0   Max.   :23.10   Max.   :20.20   Max.   :47.60   Max.   :54.60  
+##        BD       
+##  Min.   : 6.10  
+##  1st Qu.:11.40  
+##  Median :13.90  
+##  Mean   :14.03  
+##  3rd Qu.:16.60  
+##  Max.   :21.60
+\end{verbatim}
+
+\subsubsection{Crabs summary after}\label{crabs-summary-after}
+
+\begin{verbatim}
+##      index              FL                RW                 CL          
+##  Min.   :  1.00   Min.   :-0.1121   Min.   :-0.03584   Min.   :-0.06558  
+##  1st Qu.: 50.75   1st Qu.: 0.2891   1st Qu.: 0.36935   1st Qu.: 0.34798  
+##  Median :100.50   Median : 0.4756   Median : 0.53142   Median : 0.50666  
+##  Mean   :100.50   Mean   : 0.4779   Mean   : 0.52589   Mean   : 0.50684  
+##  3rd Qu.:150.25   3rd Qu.: 0.6515   3rd Qu.: 0.66649   3rd Qu.: 0.67521  
+##  Max.   :200.00   Max.   : 1.0070   Max.   : 1.19773   Max.   : 1.01641  
+##        CW                 BD          
+##  Min.   :-0.05659   Min.   :-0.09454  
+##  1st Qu.: 0.37318   1st Qu.: 0.29209  
+##  Median : 0.53135   Median : 0.47447  
+##  Mean   : 0.51985   Mean   : 0.48399  
+##  3rd Qu.: 0.68654   3rd Qu.: 0.67143  
+##  Max.   : 1.06258   Max.   : 1.03618
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Clustering with ESOM
+\end{enumerate}
+
+\subsection{Clustering of the Iris Data
+set}\label{clustering-of-the-iris-data-set}
+
+\begin{verbatim}
+## [1] "Epoch: 1 started"
+## [1] "Epoch: 1 finished. 150 datapoints changed bestmatch"
+## [1] "Epoch: 2 started"
+## [1] "Epoch: 2 finished. 150 datapoints changed bestmatch"
+## [1] "Epoch: 3 started"
+## [1] "Epoch: 3 finished. 149 datapoints changed bestmatch"
+## [1] "Epoch: 4 started"
+## [1] "Epoch: 4 finished. 150 datapoints changed bestmatch"
+## [1] "Epoch: 5 started"
+## [1] "Epoch: 5 finished. 149 datapoints changed bestmatch"
+## [1] "Epoch: 6 started"
+## [1] "Epoch: 6 finished. 149 datapoints changed bestmatch"
+## [1] "Epoch: 7 started"
+## [1] "Epoch: 7 finished. 148 datapoints changed bestmatch"
+## [1] "Epoch: 8 started"
+## [1] "Epoch: 8 finished. 149 datapoints changed bestmatch"
+## [1] "Epoch: 9 started"
+## [1] "Epoch: 9 finished. 147 datapoints changed bestmatch"
+## [1] "Epoch: 10 started"
+## [1] "Epoch: 10 finished. 147 datapoints changed bestmatch"
+## [1] "Epoch: 11 started"
+## [1] "Epoch: 11 finished. 145 datapoints changed bestmatch"
+## [1] "Epoch: 12 started"
+## [1] "Epoch: 12 finished. 145 datapoints changed bestmatch"
+## [1] "Epoch: 13 started"
+## [1] "Epoch: 13 finished. 150 datapoints changed bestmatch"
+## [1] "Epoch: 14 started"
+## [1] "Epoch: 14 finished. 139 datapoints changed bestmatch"
+## [1] "Epoch: 15 started"
+## [1] "Epoch: 15 finished. 135 datapoints changed bestmatch"
+## [1] "Epoch: 16 started"
+## [1] "Epoch: 16 finished. 127 datapoints changed bestmatch"
+## [1] "Epoch: 17 started"
+## [1] "Epoch: 17 finished. 122 datapoints changed bestmatch"
+## [1] "Epoch: 18 started"
+## [1] "Epoch: 18 finished. 99 datapoints changed bestmatch"
+## [1] "Epoch: 19 started"
+## [1] "Epoch: 19 finished. 81 datapoints changed bestmatch"
+## [1] "Epoch: 20 started"
+## [1] "Epoch: 20 finished. 56 datapoints changed bestmatch"
+## [1] "Epoch: 21 started"
+## [1] "Epoch: 21 finished. 36 datapoints changed bestmatch"
+## [1] "Epoch: 22 started"
+## [1] "Epoch: 22 finished. 14 datapoints changed bestmatch"
+## [1] "Epoch: 23 started"
+## [1] "Epoch: 23 finished. 3 datapoints changed bestmatch"
+## [1] "Epoch: 24 started"
+## [1] "Epoch: 24 finished. 0 datapoints changed bestmatch"
+## [1] "---- Esom Training Finished ----"
+## [1] "shift to point of highest density"
+\end{verbatim}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\subsection{Clustering of the Crabs Data set with Sex
+highlighted}\label{clustering-of-the-crabs-data-set-with-sex-highlighted}
+
+\begin{verbatim}
+## [1] "Epoch: 1 started"
+## [1] "Epoch: 1 finished. 200 datapoints changed bestmatch"
+## [1] "Epoch: 2 started"
+## [1] "Epoch: 2 finished. 200 datapoints changed bestmatch"
+## [1] "Epoch: 3 started"
+## [1] "Epoch: 3 finished. 200 datapoints changed bestmatch"
+## [1] "Epoch: 4 started"
+## [1] "Epoch: 4 finished. 200 datapoints changed bestmatch"
+## [1] "Epoch: 5 started"
+## [1] "Epoch: 5 finished. 200 datapoints changed bestmatch"
+## [1] "Epoch: 6 started"
+## [1] "Epoch: 6 finished. 200 datapoints changed bestmatch"
+## [1] "Epoch: 7 started"
+## [1] "Epoch: 7 finished. 199 datapoints changed bestmatch"
+## [1] "Epoch: 8 started"
+## [1] "Epoch: 8 finished. 200 datapoints changed bestmatch"
+## [1] "Epoch: 9 started"
+## [1] "Epoch: 9 finished. 200 datapoints changed bestmatch"
+## [1] "Epoch: 10 started"
+## [1] "Epoch: 10 finished. 200 datapoints changed bestmatch"
+## [1] "Epoch: 11 started"
+## [1] "Epoch: 11 finished. 199 datapoints changed bestmatch"
+## [1] "Epoch: 12 started"
+## [1] "Epoch: 12 finished. 198 datapoints changed bestmatch"
+## [1] "Epoch: 13 started"
+## [1] "Epoch: 13 finished. 190 datapoints changed bestmatch"
+## [1] "Epoch: 14 started"
+## [1] "Epoch: 14 finished. 199 datapoints changed bestmatch"
+## [1] "Epoch: 15 started"
+## [1] "Epoch: 15 finished. 199 datapoints changed bestmatch"
+## [1] "Epoch: 16 started"
+## [1] "Epoch: 16 finished. 191 datapoints changed bestmatch"
+## [1] "Epoch: 17 started"
+## [1] "Epoch: 17 finished. 194 datapoints changed bestmatch"
+## [1] "Epoch: 18 started"
+## [1] "Epoch: 18 finished. 189 datapoints changed bestmatch"
+## [1] "Epoch: 19 started"
+## [1] "Epoch: 19 finished. 185 datapoints changed bestmatch"
+## [1] "Epoch: 20 started"
+## [1] "Epoch: 20 finished. 179 datapoints changed bestmatch"
+## [1] "Epoch: 21 started"
+## [1] "Epoch: 21 finished. 162 datapoints changed bestmatch"
+## [1] "Epoch: 22 started"
+## [1] "Epoch: 22 finished. 137 datapoints changed bestmatch"
+## [1] "Epoch: 23 started"
+## [1] "Epoch: 23 finished. 91 datapoints changed bestmatch"
+## [1] "Epoch: 24 started"
+## [1] "Epoch: 24 finished. 15 datapoints changed bestmatch"
+## [1] "---- Esom Training Finished ----"
+## [1] "shift to point of highest density"
+\end{verbatim}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\subsection{Clustering of the Crabs Data set with SP
+highlighted}\label{clustering-of-the-crabs-data-set-with-sp-highlighted}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Clustering with DBS
+\end{enumerate}
+
+\begin{verbatim}
+## Package 'DatabionicSwarm' version 2.0.0.
+## Type 'citation('DatabionicSwarm')' for citing this R package in publications.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attache Paket: 'DatabionicSwarm'
+\end{verbatim}
+
+\begin{verbatim}
+## Die folgenden Objekte sind maskiert von 'package:DataVisualizations':
+## 
+##     DefaultColorSequence, Lsun3D, RobustNorm_BackTrafo,
+##     RobustNormalization
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "Initialization phase successful (Time: 0.02 secs)."
+## [1] "Starting swarm game ..."
+## [1] "Swarm computation ended (Time: 2.65 secs)."
+## [1] "Adjusting ..."
+\end{verbatim}
+
+\begin{verbatim}
+## Lade nötigen Namensraum: mgcv
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "Operator: getUmatrix4BMUs() at 5%"
+## [1] "Operator: getUmatrix4BMUs() at 10%"
+## [1] "Operator: getUmatrix4BMUs() at 15%"
+## [1] "Operator: getUmatrix4BMUs() at 20%"
+## [1] "Operator: getUmatrix4BMUs() at 25%"
+## [1] "Operator: getUmatrix4BMUs() at 30%"
+## [1] "Operator: getUmatrix4BMUs() at 35%"
+## [1] "Operator: getUmatrix4BMUs() at 40%"
+## [1] "Operator: getUmatrix4BMUs() at 45%"
+## [1] "Operator: getUmatrix4BMUs() at 50%"
+## [1] "Operator: getUmatrix4BMUs() at 55%"
+## [1] "Operator: getUmatrix4BMUs() at 60%"
+## [1] "Operator: getUmatrix4BMUs() at 65%"
+## [1] "Operator: getUmatrix4BMUs() at 70%"
+## [1] "Operator: getUmatrix4BMUs() at 75%"
+## [1] "Operator: getUmatrix4BMUs() at 80%"
+## [1] "Operator: getUmatrix4BMUs() at 85%"
+## [1] "Operator: getUmatrix4BMUs() at 90%"
+## [1] "Operator: getUmatrix4BMUs() at 95%"
+## [1] "Operator: getUmatrix4BMUs() at 95%"
+## [1] "Operator: calcUmatrix() generates U-Matrix now..."
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in CheckBestMatches(BestMatches, Cls): Given BMUs do not have IDs. A
+## column 1:nrow(BestMatches) will be added.
+\end{verbatim}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dbs }\OtherTok{\textless{}{-}} \FunctionTok{DBSclustering}\NormalTok{(}\DecValTok{3}\NormalTok{,iris\_sl,s}\SpecialCharTok{$}\NormalTok{Bestmatches,}\FunctionTok{c}\NormalTok{(s}\SpecialCharTok{$}\NormalTok{Lines,s}\SpecialCharTok{$}\NormalTok{Columns))}
+\FunctionTok{plotMatrix}\NormalTok{(s}\SpecialCharTok{$}\NormalTok{Umatrix,s}\SpecialCharTok{$}\NormalTok{Bestmatches,}\AttributeTok{Cls =}\NormalTok{ dbs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in CheckBestMatches(BestMatches, Cls): Given BMUs do not have IDs. A
+## column 1:nrow(BestMatches) will be added.
+\end{verbatim}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crabs\_pswarm }\OtherTok{\textless{}{-}} \FunctionTok{Pswarm}\NormalTok{(crabs\_pp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Initialization phase successful (Time: 0.36 secs)."
+## [1] "Starting swarm game ..."
+## [1] "Swarm computation ended (Time: 14.1 secs)."
+## [1] "Adjusting ..."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crabs\_s }\OtherTok{\textless{}{-}}\NormalTok{ GeneralizedUmatrix}\SpecialCharTok{::}\FunctionTok{GeneralizedUmatrix}\NormalTok{(crabs\_pp,crabs\_pswarm}\SpecialCharTok{$}\NormalTok{ProjectedPoints)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Operator: getUmatrix4BMUs() at 5%"
+## [1] "Operator: getUmatrix4BMUs() at 10%"
+## [1] "Operator: getUmatrix4BMUs() at 15%"
+## [1] "Operator: getUmatrix4BMUs() at 20%"
+## [1] "Operator: getUmatrix4BMUs() at 25%"
+## [1] "Operator: getUmatrix4BMUs() at 30%"
+## [1] "Operator: getUmatrix4BMUs() at 35%"
+## [1] "Operator: getUmatrix4BMUs() at 40%"
+## [1] "Operator: getUmatrix4BMUs() at 45%"
+## [1] "Operator: getUmatrix4BMUs() at 50%"
+## [1] "Operator: getUmatrix4BMUs() at 55%"
+## [1] "Operator: getUmatrix4BMUs() at 60%"
+## [1] "Operator: getUmatrix4BMUs() at 65%"
+## [1] "Operator: getUmatrix4BMUs() at 70%"
+## [1] "Operator: getUmatrix4BMUs() at 75%"
+## [1] "Operator: getUmatrix4BMUs() at 80%"
+## [1] "Operator: getUmatrix4BMUs() at 85%"
+## [1] "Operator: getUmatrix4BMUs() at 90%"
+## [1] "Operator: getUmatrix4BMUs() at 95%"
+## [1] "Operator: getUmatrix4BMUs() at 95%"
+## [1] "Operator: calcUmatrix() generates U-Matrix now..."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plotMatrix}\NormalTok{(crabs\_s}\SpecialCharTok{$}\NormalTok{Umatrix,crabs\_s}\SpecialCharTok{$}\NormalTok{Bestmatches, }\AttributeTok{Cls =}\NormalTok{ crabs\_sp}\SpecialCharTok{$}\NormalTok{Cls)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in CheckBestMatches(BestMatches, Cls): Given BMUs do not have IDs. A
+## column 1:nrow(BestMatches) will be added.
+\end{verbatim}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crabs\_dbs }\OtherTok{\textless{}{-}} \FunctionTok{DBSclustering}\NormalTok{(}\DecValTok{2}\NormalTok{,crabs\_pp,crabs\_s}\SpecialCharTok{$}\NormalTok{Bestmatches,}\FunctionTok{c}\NormalTok{(crabs\_s}\SpecialCharTok{$}\NormalTok{Lines,crabs\_s}\SpecialCharTok{$}\NormalTok{Columns))}
+\FunctionTok{plotMatrix}\NormalTok{(crabs\_s}\SpecialCharTok{$}\NormalTok{Umatrix,crabs\_s}\SpecialCharTok{$}\NormalTok{Bestmatches,}\AttributeTok{Cls =}\NormalTok{ crabs\_dbs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in CheckBestMatches(BestMatches, Cls): Given BMUs do not have IDs. A
+## column 1:nrow(BestMatches) will be added.
+\end{verbatim}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plotMatrix}\NormalTok{(crabs\_s}\SpecialCharTok{$}\NormalTok{Umatrix,crabs\_s}\SpecialCharTok{$}\NormalTok{Bestmatches, }\AttributeTok{Cls =}\NormalTok{ crabs\_sp}\SpecialCharTok{$}\NormalTok{Cls)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in CheckBestMatches(BestMatches, Cls): Given BMUs do not have IDs. A
+## column 1:nrow(BestMatches) will be added.
+\end{verbatim}
+
+\includegraphics{Project2_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Evaluate match between classification and clustering
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{caret}\SpecialCharTok{::}\FunctionTok{confusionMatrix}\NormalTok{(}\FunctionTok{as.factor}\NormalTok{(dbs),}\FunctionTok{as.factor}\NormalTok{(iris\_solution}\SpecialCharTok{$}\NormalTok{Cls))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  1  2  3
+##          1 50  0  0
+##          2  0 23 48
+##          3  0 27  2
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.5             
+##                  95% CI : (0.4174, 0.5826)
+##     No Information Rate : 0.3333          
+##     P-Value [Acc > NIR] : 1.83e-05        
+##                                           
+##                   Kappa : 0.25            
+##                                           
+##  Mcnemar's Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: 1 Class: 2 Class: 3
+## Sensitivity            1.0000   0.4600  0.04000
+## Specificity            1.0000   0.5200  0.73000
+## Pos Pred Value         1.0000   0.3239  0.06897
+## Neg Pred Value         1.0000   0.6582  0.60331
+## Prevalence             0.3333   0.3333  0.33333
+## Detection Rate         0.3333   0.1533  0.01333
+## Detection Prevalence   0.3333   0.4733  0.19333
+## Balanced Accuracy      1.0000   0.4900  0.38500
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{caret}\SpecialCharTok{::}\FunctionTok{confusionMatrix}\NormalTok{(}\FunctionTok{as.factor}\NormalTok{(crabs\_dbs),}\FunctionTok{as.factor}\NormalTok{(crabs\_sp}\SpecialCharTok{$}\NormalTok{Cls))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction   1   2
+##          1 100  21
+##          2   0  79
+##                                          
+##                Accuracy : 0.895          
+##                  95% CI : (0.844, 0.9338)
+##     No Information Rate : 0.5            
+##     P-Value [Acc > NIR] : < 2.2e-16      
+##                                          
+##                   Kappa : 0.79           
+##                                          
+##  Mcnemar's Test P-Value : 1.275e-05      
+##                                          
+##             Sensitivity : 1.0000         
+##             Specificity : 0.7900         
+##          Pos Pred Value : 0.8264         
+##          Neg Pred Value : 1.0000         
+##              Prevalence : 0.5000         
+##          Detection Rate : 0.5000         
+##    Detection Prevalence : 0.6050         
+##       Balanced Accuracy : 0.8950         
+##                                          
+##        'Positive' Class : 1              
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{caret}\SpecialCharTok{::}\FunctionTok{confusionMatrix}\NormalTok{(}\FunctionTok{as.factor}\NormalTok{(crabs\_dbs),}\FunctionTok{as.factor}\NormalTok{(crabs\_sex}\SpecialCharTok{$}\NormalTok{Cls))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  1  2
+##          1 50 71
+##          2 50 29
+##                                           
+##                Accuracy : 0.395           
+##                  95% CI : (0.3268, 0.4664)
+##     No Information Rate : 0.5             
+##     P-Value [Acc > NIR] : 0.99886         
+##                                           
+##                   Kappa : -0.21           
+##                                           
+##  Mcnemar's Test P-Value : 0.06904         
+##                                           
+##             Sensitivity : 0.5000          
+##             Specificity : 0.2900          
+##          Pos Pred Value : 0.4132          
+##          Neg Pred Value : 0.3671          
+##              Prevalence : 0.5000          
+##          Detection Rate : 0.2500          
+##    Detection Prevalence : 0.6050          
+##       Balanced Accuracy : 0.3950          
+##                                           
+##        'Positive' Class : 1               
+## 
+\end{verbatim}
+
+\end{document}
